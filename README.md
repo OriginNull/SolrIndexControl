@@ -1,0 +1,4 @@
+# SolrIndexControl
+
+## 基于solr的全量索引更新和增量索引更新的动态定时任务实现
+利用Quartz和Spring进行整合处理，同时利用HttpClient来进行HTTP请求的处理
