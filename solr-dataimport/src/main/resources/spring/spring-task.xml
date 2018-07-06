@@ -1,0 +1,79 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<beans xmlns="http://www.springframework.org/schema/beans"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xmlns:context="http://www.springframework.org/schema/context"
+	xmlns:task="http://www.springframework.org/schema/task"
+	xsi:schemaLocation="http://www.springframework.org/schema/beans http://www.springframework.org/schema/beans/spring-beans-4.3.xsd
+		http://www.springframework.org/schema/context http://www.springframework.org/schema/context/spring-context-4.3.xsd
+		http://www.springframework.org/schema/task http://www.springframework.org/schema/task/spring-task-4.3.xsd">
+	<context:component-scan base-package="cn.origin"/>
+	<context:property-placeholder location="classpath:config/*.properties"/>
+
+	<!--
+		QuartzBean：定时任务继承类
+		JobDetailFactoryBean:调度工厂类
+		SimpleTriggerFactoryBean：间隔任务的触发器
+		CronTriggerFactoryBean：cron任务的触发器
+		SchedulerFactoryBean：任务调度器
+		开发流程:定时任务处理类 - 触发器配置 - 任务调度器
+
+
+
+		MethodInvokingJobDetailFactoryBean：定时任务方法配置
+		CronTriggerFactoryBean：cron任务触发器
+		SimpleTriggerFactoryBean：间隔任务的触发器
+		SchedulerFactoryBean：任务调度器
+		开发流程：定时任务处理类 - 定时任务方法配置 - 触发器配置 - 任务调度器
+	-->
+	<bean name="quartzScheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+		<!--<property name="applicationContextSchedulerContextKey" value="applicationContextKey" />-->
+		<property name="configLocation" value="classpath:config/quartz.properties"/>
+		<!--<property name="triggers">	&lt;!&ndash; 配置要使用的定时调度器 &ndash;&gt;-->
+			<!--<array>-->
+				<!--<ref bean="schedulerServiceImpl"/>-->
+				<!--<ref bean="schedulerDeltaServiceImpl"/>-->
+			<!--</array>-->
+		<!--</property>-->
+	</bean>
+
+	<!--全量索引调度工厂类的配置-->
+	<bean id="jobDetail1" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<!--全量索引的bean注入-->
+		<property name="jobClass" value="cn.origin.util.MyQuartzFullJobBean" />
+		<!--增量索引的bean注入-->
+		<!--<property name="jobClass" value="cn.originin.util.MyQuartzDeltaJobBean" />-->
+		<property name="applicationContextJobDataKey" value="applicationContextKey" />
+		<!--
+			job的持久性存储，即使没有触发器指向它，也会保存  不加会报错
+			因为在Spring上下文启动的时候，job还没有添加到触发器之中
+			此时的Job未指定触发器，如果不保存的，之后的执行就没有任务意义
+		-->
+		<property name="durability" value="true" />
+	</bean>
+
+	<!--增量索引调度工厂类的配置-->
+	<bean id="jobDetail2" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+		<!--全量索引的bean注入-->
+		<!--<property name="jobClass" value="cn.originin.util.MyQuartzFullJobBean" />-->
+		<!--增量索引的bean注入-->
+		<property name="jobClass" value="cn.origin.util.MyQuartzDeltaJobBean" />
+		<property name="applicationContextJobDataKey" value="applicationContextKey" />
+		<!--
+			job的持久性存储，即使没有触发器指向它，也会保存  不加会报错
+			因为在Spring上下文启动的时候，job还没有添加到触发器之中
+			此时的Job未指定触发器，如果不保存的，之后的执行就没有任务意义
+		-->
+		<property name="durability" value="true" />
+	</bean>
+
+	<!-- 2、配置一个任务的触发器，使用全量触发器 -->
+	<!--<bean id="schedulerServiceImpl" class="cn.originin.service.impl.SchedulerServiceImpl">-->
+		<!--<property name="jobDetail1" ref="jobDetail1"/>	&lt;!&ndash; 定义任务的执行 &ndash;&gt;-->
+	<!--</bean>-->
+
+
+	<!-- 2、配置一个任务的触发器，使用增量触发器 -->
+	<!--<bean id="schedulerDeltaServiceImpl" class="cn.originin.service.impl.SchedulerDeltaServiceImpl">-->
+		<!--<property name="jobDetail2" ref="jobDetail2"/>	&lt;!&ndash; 定义任务的执行 &ndash;&gt;-->
+	<!--</bean>-->
+</beans>
