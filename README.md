@@ -4,7 +4,6 @@
 利用Quartz和Spring进行整合处理，同时利用HttpClient来进行HTTP请求的处理
 
 ## 动态定时任务处理分析
-## 关于Quartz组件的分析
  ### 四个核心接口：
    ● Job <br/>
    ● JobDetail<br/>
