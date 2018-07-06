@@ -37,10 +37,10 @@
   ● 提供创建Scheduler的BeanFactort类，方便在Spring环境下创建对应的组件对象，并结合Spring容器生命周期执行启动和停止的动作。<br/>
 	
   > JobDetail ---------- JobDetailFactoryBean  <br/>
-	MethodInvokingJobDetailFactoryBean <br/>
-	SimpleTrigger ----------- SimpleTriggerFactoryBean <br/>
-	CronTrigger --------------- CronTriggerFactoryBean <br/>
-	SchedulerFactory  ----------- SchedulerFactoryBean <br/>
+    MethodInvokingJobDetailFactoryBean <br/>
+    SimpleTrigger ----------- SimpleTriggerFactoryBean <br/>
+    CronTrigger --------------- CronTriggerFactoryBean <br/>
+    SchedulerFactory  ----------- SchedulerFactoryBean <br/>
 
 
 **需求**：可以动态的进行任务的控制，暂停旧的任务，开启新的任务，删除旧的任务... 
@@ -54,10 +54,10 @@
 ```
     ① 利用实现Job来定义定时任务
     ② 利用JobDetail对任务的实现类及其他相关的静态信息进行描述
-	③ 利用Trigger进行任务的触发控制(间隔控制、CRON控制)
-		|- 此处可以自己手工调用CronTrigger接口或则SimpleTrigger接口的方法进行实现，也可以自己重新创建自己特色的方法
-			（它俩内部Quartz针对于间隔调度和CRON调度进行了具体类的控制实现，具体细节可以参看源代码）
-	④ 利用Scheduler进行任务的调度处理，主要进行一些特定的配置文件的处理（集群信息、调度器线程池、任务调度现场数据的保存(默认保存在内存之中，可以进行配置将其保存在数据库之中)）
+    ③ 利用Trigger进行任务的触发控制(间隔控制、CRON控制)
+	|- 此处可以自己手工调用CronTrigger接口或则SimpleTrigger接口的方法进行实现，也可以自己重新创建自己特色的方法
+	（它俩内部Quartz针对于间隔调度和CRON调度进行了具体类的控制实现，具体细节可以参看源代码）
+    ④ 利用Scheduler进行任务的调度处理，主要进行一些特定的配置文件的处理（集群信息、调度器线程池、任务调度现场数据的保存(默认保存在内存之中，可以进行配置将其保存在数据库之中)）
 ```
 
 
@@ -66,8 +66,8 @@
 		
 ```
     ① 利用实现Job来说定义定时任务，通过JobExecutionContext来获取Spring上下文，从而通过自定义的调度器来进行任务的操作
-	② 配置JobDetailFactoryBean，配置SchedulerFactoryBean进行Quartz相关配置文件的设置
-	③ 进行触发器的设置，之后任务就开始执行了。
+    ② 配置JobDetailFactoryBean，配置SchedulerFactoryBean进行Quartz相关配置文件的设置
+    ③ 进行触发器的设置，之后任务就开始执行了。
 ```
 
 
