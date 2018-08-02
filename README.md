@@ -33,8 +33,8 @@
  
  ### Spring提供的支持：
  
-  ● 为Quartz的重要组建磊提供更具Bean风格的扩展类<br/>
-  ● 提供创建Scheduler的BeanFactort类，方便在Spring环境下创建对应的组件对象，并结合Spring容器生命周期执行启动和停止的动作。<br/>
+  ● 为Quartz的重要组件提供更具Bean风格的扩展类<br/>
+  ● 提供创建Scheduler的BeanFactory类，方便在Spring环境下创建对应的组件对象，并结合Spring容器生命周期执行启动和停止的动作。<br/>
 	
   > JobDetail ---------- JobDetailFactoryBean  <br/>
     MethodInvokingJobDetailFactoryBean <br/>
@@ -65,7 +65,7 @@
 		整体执行流程：任务 -  触发器 - 调度器
 		
 ```
-    ① 利用实现Job来说定义定时任务，通过JobExecutionContext来获取Spring上下文，从而通过自定义的调度器来进行任务的操作
+    ① 利用实现Job来定义定时任务，通过JobExecutionContext来获取Spring上下文，从而通过自定义的调度器来进行任务的操作
     ② 配置JobDetailFactoryBean，配置SchedulerFactoryBean进行Quartz相关配置文件的设置
     ③ 进行触发器的设置，之后任务就开始执行了。
 ```
